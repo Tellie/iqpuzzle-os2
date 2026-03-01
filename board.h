@@ -1,28 +1,5 @@
-/**
- * \file board.h
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Class definition for a board.
- */
+// SPDX-FileCopyrightText: 2012-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef BOARD_H_
 #define BOARD_H_
@@ -33,18 +10,13 @@
 class QSettings;
 
 class Block;
-class Settings;
 
-/**
- * \class Board
- * \brief Complete board generation, including block setup.
- */
 class Board : public QGraphicsScene {
   Q_OBJECT
 
  public:
   Board(QWidget *pParent, QGraphicsView *pGraphView, QString sBoardFile,
-        Settings *pSettings, const quint16 nGridSize = 0,
+        const quint16 nGridSize = 0,
         const QString &sSavedGame = QLatin1String(""),
         QObject *pParentObj = nullptr);
 
@@ -65,15 +37,16 @@ class Board : public QGraphicsScene {
   void checkPuzzleSolved();
 
  private slots:
-  void useSystemBackground(const bool bUseSysColor);
+  void updateUseSystemBackground(const bool bUseSystemBackground);
 
  private:
   void drawBoard();
   void drawGrid();
+  auto drawCalendar(bool bMonth = false) -> bool;
   auto createBlocks() -> bool;
   auto createBarriers() -> bool;
-  auto readColor(const QString &sKey,
-                 const bool bColorIsBoardBG = false) const -> QColor;
+  auto readColor(const QString &sKey, const bool bColorIsBoardBG = false) const
+      -> QColor;
   QPolygonF readPolygon(const QSettings *tmpSet, const QString &sKey,
                         const bool bScale = false);
   static auto checkOrthogonality(QPointF point) -> bool;
@@ -86,12 +59,12 @@ class Board : public QGraphicsScene {
   QSettings *m_pBoardConf;
   QSettings *m_pSavedConf;
   QString m_sBoardFile;
-  Settings *m_pSettings;
   bool m_bSavedGame;
   QPolygonF m_BoardPoly;
   QList<Block *> m_listBlocks;
   quint8 m_nNumOfBlocks{};
   quint16 m_nGridSize;
+  bool m_bUseSystemBackground;
   bool m_bNotAllPiecesNeeded{};
   bool m_bFreestyle{};
 

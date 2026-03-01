@@ -1,28 +1,5 @@
-/**
- * \file boardpreview.h
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Board preview widget.
- */
+// SPDX-FileCopyrightText: 2024-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef BOARDPREVIEW_H_
 #define BOARDPREVIEW_H_
@@ -38,11 +15,13 @@ class BoardPreview : public QWidget {
   Q_OBJECT
 
  public:
-  explicit BoardPreview(const QString &sFilePath, const bool bSolved,
-                        const QSize previewsize, QWidget *pParent = nullptr);
+  explicit BoardPreview(const QString &sFilePath, const QString &sCategory,
+                        const bool bSolved, const QSize previewsize,
+                        QWidget *pParent = nullptr);
   ~BoardPreview();
 
-  auto getName() -> const QString;
+  auto getCategory() -> const QString &;
+  auto isSolved() -> bool;
   void updateSolved();
 
  public slots:
@@ -60,7 +39,9 @@ class BoardPreview : public QWidget {
 
   Ui::BoardPreview *m_pUi;
   QString m_sFilePath;
+  QString m_sCategory;
   quint32 m_nSolutions;
+  bool m_bSolved;
 };
 
 #endif  // BOARDPREVIEW_H_

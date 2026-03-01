@@ -1,18 +1,5 @@
-#  This file is part of iQPuzzle.
-#  Copyright (C) 2012-present Thorsten Roth
-#
-#  iQPuzzle is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  iQPuzzle is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with iQPuzzle.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2012-2025 Thorsten Roth
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 TEMPLATE       = app
 
@@ -22,8 +9,8 @@ unix: !macx {
        TARGET  = iQPuzzle
 }
 
-win32:VERSION  = 1.4.2.0
-else:VERSION   = 1.4.2
+win32:VERSION  = 1.5.0.0
+else:VERSION   = 1.5.0
 
 QMAKE_TARGET_PRODUCT     = "iQPuzzle"
 QMAKE_TARGET_DESCRIPTION = "IQ challenging pentomino puzzle"
@@ -45,7 +32,7 @@ DEFINES       += QT_NO_FOREACH
 
 CONFIG(debug, debug|release) {
   CONFIG      += warn_on
-  DEFINES     += QT_DISABLE_DEPRECATED_BEFORE=0x060800
+  DEFINES     += QT_DISABLE_DEPRECATED_BEFORE=0x060900
 }
 
 SOURCES       += main.cpp\
@@ -56,7 +43,8 @@ SOURCES       += main.cpp\
                  boardpreview.cpp \
                  boardselection.cpp \
                  highscore.cpp \
-                 settings.cpp
+                 settings.cpp \
+                 settingsdialog.cpp
 
 HEADERS       += iqpuzzle.h \
                  board.h \
@@ -65,12 +53,13 @@ HEADERS       += iqpuzzle.h \
                  boardpreview.h \
                  boardselection.h \
                  highscore.h \
-                 settings.h
+                 settings.h \
+                 settingsdialog.h
 
 FORMS         += iqpuzzle.ui \
                  boardpreview.ui \
                  boardselection.ui \
-                 settings.ui
+                 settingsdialog.ui
 
 RESOURCES      = data/data.qrc \
                  lang/translations.qrc
@@ -90,7 +79,7 @@ TRANSLATIONS  += lang/iqpuzzle_bg.ts \
                  lang/iqpuzzle_zh_CN.ts \
                  lang/iqpuzzle_zh_TW.ts
 
-win32:RC_ICONS = icons/iqpuzzle.ico
+win32:RC_FILE  = data/win.rc
 os2:RC_ICONS   = icons/iqpuzzle_os2.ico
 
 macx {

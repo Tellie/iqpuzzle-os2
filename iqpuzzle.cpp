@@ -1,28 +1,5 @@
-/**
- * \file iqpuzzle.cpp
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Main application generation (GUI, object creation etc.).
- */
+// SPDX-FileCopyrightText: 2012-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "./iqpuzzle.h"
 
@@ -51,25 +28,27 @@
 #include "./board.h"
 #include "./boardselection.h"
 #include "./highscore.h"
-#include "./settings.h"
+#include "./settingsdialog.h"
 #include "ui_iqpuzzle.h"
 
-IQPuzzle::IQPuzzle(const QDir &userDataDir, const QDir &sharePath,
-                   QWidget *pParent)
+IQPuzzle::IQPuzzle(const QDir &userDataDir, QWidget *pParent)
     : QMainWindow(pParent),
       m_pUi(new Ui::IQPuzzle),
       m_sCurrLang(QString()),
       m_pBoard(nullptr),
       m_sSavedGame(QString()),
       m_userDataDir(userDataDir),
-      m_sSharePath(sharePath.absolutePath()),
       m_nMoves(0),
       m_sSavedTime(QString()),
       m_sSavedMoves(QString()),
       m_Time(0, 0, 0),
-      m_bSolved(false) {
+      m_bSolved(false),
+      m_pSettings(Settings::instance()) {
   qDebug() << Q_FUNC_INFO;
+
   m_pUi->setupUi(this);
+  connect(m_pSettings, &Settings::changeGuiLanguage, this,
+          &IQPuzzle::loadLanguage);
 
   QString sIconTheme;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
@@ -95,16 +74,15 @@ IQPuzzle::IQPuzzle(const QDir &userDataDir, const QDir &sharePath,
   QIcon::setThemeName(sIconTheme);
 
   m_pHighscore = new Highscore(this);
-  m_pSettings = new Settings(this, m_sSharePath);
-  connect(m_pSettings, &Settings::changeLang, this, &IQPuzzle::loadLanguage);
-  connect(this, &IQPuzzle::updateUiLang, m_pSettings, &Settings::updateUiLang);
-  this->loadLanguage(m_pSettings->getLanguage());
+  m_pSettingsDialog = new SettingsDialog(this);
+  connect(this, &IQPuzzle::updateUiLang, m_pSettingsDialog,
+          &SettingsDialog::updateUiLang);
+  this->loadLanguage(m_pSettings->getGuiLanguage());
   this->setupMenu();
 
   this->generateFileLists();  // Run before creating BoardSelection
-  m_pBoardSelection =
-      new BoardSelection(this, m_sSharePath + "/boards", m_sListAllUnsolved,
-                         m_pSettings->getLastOpenedDir());
+  m_pBoardSelection = new BoardSelection(
+      this, m_pSettings->getSharePath() + "/boards", m_sListAllUnsolved);
   connect(this, &IQPuzzle::updateUiLang, m_pBoardSelection,
           &BoardSelection::updateUiLang);
 
@@ -158,10 +136,12 @@ IQPuzzle::IQPuzzle(const QDir &userDataDir, const QDir &sharePath,
     this->loadGame(sLoadBoard);
   } else {
     if (sStartBoard.isEmpty()) {  // Start rectangle_001 as default
-      if (QFile::exists(m_sSharePath + "/boards/rectangles")) {
-        sStartBoard = m_sSharePath + "/boards/rectangles/rectangle_001.conf";
+      if (QFile::exists(m_pSettings->getSharePath() + "/boards/rectangles")) {
+        sStartBoard = m_pSettings->getSharePath() +
+                      "/boards/rectangles/rectangle_001.conf";
       } else {
-        qWarning() << "Games share path does not exist:" << m_sSharePath;
+        qWarning() << "Games share path does not exist:"
+                   << m_pSettings->getSharePath();
         QMessageBox::warning(this, qApp->applicationName(),
                              tr("Games share path does not exist!"));
       }
@@ -207,6 +187,12 @@ void IQPuzzle::setupMenu() {
   connect(m_pUi->actionHardUnsolved, &QAction::triggered, this,
           [this]() { randomGame(8); });
 
+  // Calendar challenge
+  connect(m_pUi->actionDay, &QAction::triggered, this,
+          [this]() { startNewGame(QStringLiteral("calendar_day")); });
+  connect(m_pUi->actionMonth_and_Day, &QAction::triggered, this,
+          [this]() { startNewGame(QStringLiteral("calendar_month_day")); });
+
   // Restart game
   m_pUi->action_RestartGame->setShortcut(QKeySequence::Refresh);
   connect(m_pUi->action_RestartGame, &QAction::triggered, this,
@@ -248,12 +234,16 @@ void IQPuzzle::setupMenu() {
   m_pUi->action_ZoomIn->setShortcut(QKeySequence::ZoomIn);
   m_pUi->action_ZoomOut->setShortcut(QKeySequence::ZoomOut);
 
-  // Settings
-  connect(m_pUi->action_Preferences, &QAction::triggered, m_pSettings,
-          &Settings::show);
+  // Settings dialog
+  connect(m_pUi->action_Preferences, &QAction::triggered, m_pSettingsDialog,
+          &SettingsDialog::show);
 
   // Report bug
-  connect(m_pUi->action_ReportBug, &QAction::triggered, this, []() {
+  connect(m_pUi->action_ReportBug_CB, &QAction::triggered, this, []() {
+    QDesktopServices::openUrl(
+        QUrl(QStringLiteral("https://codeberg.org/ElTh0r0/iqpuzzle/issues")));
+  });
+  connect(m_pUi->action_ReportBug_GH, &QAction::triggered, this, []() {
     QDesktopServices::openUrl(
         QUrl(QStringLiteral("https://github.com/ElTh0r0/iqpuzzle/issues")));
   });
@@ -276,6 +266,16 @@ void IQPuzzle::startNewGame(QString sBoardFile, const QString &sSavedGame,
   }
 
   qDebug() << "Board:" << sBoardFile;
+
+  // Calendar challenge
+  if (sBoardFile.toLower() == QStringLiteral("calendar_day")) {
+    sBoardFile = m_pSettings->getSharePath() +
+                 QStringLiteral("/boards/calendar/calendar_day.conf");
+  } else if (sBoardFile.toLower() == QStringLiteral("calendar_month_day")) {
+    sBoardFile = m_pSettings->getSharePath() +
+                 QStringLiteral("/boards/calendar/calendar_month_day.conf");
+  }
+
   if (!QFile::exists(sBoardFile)) {
     QMessageBox::warning(this, tr("File not found"),
                          tr("The chosen file does not exist."));
@@ -333,7 +333,6 @@ void IQPuzzle::setGameTitle() {
 auto IQPuzzle::chooseBoard() -> QString {
   if (m_pBoardSelection->exec()) {
     QString sFile(m_pBoardSelection->getSelectedFile());
-    m_pSettings->setLastOpenedDir(m_pBoardSelection->getLastOpenedDir());
     return sFile;
   }
 
@@ -352,8 +351,8 @@ void IQPuzzle::createBoard() {
   }
   delete m_pBoard;
 
-  m_pBoard = new Board(this, m_pGraphView, m_sBoardFile, m_pSettings, nGridSize,
-                       m_sSavedGame);
+  m_pBoard =
+      new Board(this, m_pGraphView, m_sBoardFile, nGridSize, m_sSavedGame);
   sPreviousBoard = m_sBoardFile;
   connect(m_pBoard, &Board::setWindowSize, this, &IQPuzzle::setMinWindowSize);
   connect(m_pUi->action_ZoomIn, &QAction::triggered, m_pBoard, &Board::zoomIn);
@@ -378,8 +377,18 @@ void IQPuzzle::createBoard() {
       m_pUi->action_Highscore->setEnabled(true);
     }
 
+    // Disable save for calendar challenge, as it should be solved the same day
+    if (m_sBoardFile.endsWith(QStringLiteral("calendar/calendar_day.conf"),
+                              Qt::CaseInsensitive) ||
+        m_sBoardFile.endsWith(
+            QStringLiteral("calendar/calendar_month_day.conf"),
+            Qt::CaseInsensitive)) {
+      m_pUi->action_SaveGame->setEnabled(false);
+    } else {
+      m_pUi->action_SaveGame->setEnabled(true);
+    }
+
     m_pUi->action_PauseGame->setChecked(false);
-    m_pUi->action_SaveGame->setEnabled(true);
     m_pUi->action_RestartGame->setEnabled(true);
     m_bSolved = false;
     m_pGraphView->setScene(m_pBoard);
@@ -404,7 +413,7 @@ void IQPuzzle::randomGame(const int nChoice) {
 #endif
 
       if (nRand >= 0 && nRand < m_sListFiles.at(nChoice - 1)->size()) {
-        this->startNewGame(m_sSharePath + "/boards/" +
+        this->startNewGame(m_pSettings->getSharePath() + "/boards/" +
                            m_sListFiles.at(nChoice - 1)->at(nRand));
       }
     } else {
@@ -430,17 +439,18 @@ void IQPuzzle::generateFileLists() {
                      qApp->applicationName().toLower(),
                      QStringLiteral("Highscore"));
 #endif
-  const uint nEasy(m_pSettings->getEasy());
-  const uint nHard(m_pSettings->getHard());
 
-  QDirIterator it(
-      m_sSharePath + "/boards", QStringList() << QStringLiteral("*.conf"),
-      QDir::NoDotAndDotDot | QDir::Files, QDirIterator::Subdirectories);
+  QDirIterator it(m_pSettings->getSharePath() + "/boards",
+                  QStringList() << QStringLiteral("*.conf"),
+                  QDir::NoDotAndDotDot | QDir::Files,
+                  QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
-    // Filter freestyle boards
-    if (!it.filePath().contains(QStringLiteral("freestyle"))) {
-      QString sName = it.filePath().remove(m_sSharePath + "/boards/");
+    // Filter freestyle and calendar boards
+    if (!it.filePath().contains(QStringLiteral("freestyle")) &&
+        !it.filePath().contains(QStringLiteral("calendar"))) {
+      QString sName =
+          it.filePath().remove(m_pSettings->getSharePath() + "/boards/");
       // qDebug() << sName;
 
       QSettings tmpSet(it.filePath(), QSettings::IniFormat);
@@ -451,13 +461,15 @@ void IQPuzzle::generateFileLists() {
 
       m_sListAll << sName;
       if (!bSolved) m_sListAllUnsolved << sName;
-      if (nSolutions >= nEasy) {
+      if (nSolutions >= m_pSettings->getThresholdEasy()) {
         m_sListEasy << sName;
         if (!bSolved) m_sListEasyUnsolved << sName;
-      } else if ((nHard < nSolutions) && (nSolutions < nEasy)) {
+      } else if ((m_pSettings->getThresholdHard() < nSolutions) &&
+                 (nSolutions < m_pSettings->getThresholdEasy())) {
         m_sListMedium << sName;
         if (!bSolved) m_sListMediumUnsolved << sName;
-      } else if ((0 < nSolutions) && (nSolutions <= nHard)) {
+      } else if ((0 < nSolutions) &&
+                 (nSolutions <= m_pSettings->getThresholdHard())) {
         m_sListHard << sName;
         if (!bSolved) m_sListHardUnsolved << sName;
       }
@@ -469,15 +481,16 @@ void IQPuzzle::generateFileLists() {
                << &m_sListMediumUnsolved << &m_sListHardUnsolved;
 
   /*
-  qDebug() << "Threshold easy:" << nEasy << " Threshold hard:" << nHard;
-  qDebug() << "All:" << m_sListAll.size() <<
-              "- unsolved:" << m_sListAllUnsolved.size();
-  qDebug() << "Easy:" << m_sListEasy.size() <<
-              "- unsolved:" << m_sListEasyUnsolved.size();
-  qDebug() << "Medium:" << m_sListMedium.size() <<
-              "- unsolved:" << m_sListMediumUnsolved.size();
-  qDebug() << "Hard:" << m_sListHard.size() <<
-              "- unsolved:" << m_sListHardUnsolved.size();
+  qDebug() << "Threshold easy:" << m_pSettings->getThresholdEasy()
+           << "Threshold hard:" << m_pSettings->getThresholdHard();
+  qDebug() << "All:" << m_sListAll.size()
+           << "- unsolved:" << m_sListAllUnsolved.size();
+  qDebug() << "Easy:" << m_sListEasy.size()
+           << "- unsolved:" << m_sListEasyUnsolved.size();
+  qDebug() << "Medium:" << m_sListMedium.size()
+           << "- unsolved:" << m_sListMediumUnsolved.size();
+  qDebug() << "Hard:" << m_sListHard.size()
+           << "- unsolved:" << m_sListHardUnsolved.size();
   */
 }
 
@@ -653,14 +666,28 @@ void IQPuzzle::solvedPuzzle() {
   m_pBoard->saveGame(m_userDataDir.absolutePath() + "/S0LV3D.debug",
                      QStringLiteral("55:55:55"), QStringLiteral("10000"));
   QFile::remove(m_userDataDir.absolutePath() + "/S0LV3D.debug");
-  emit checkHighscore(fi.baseName(), m_nMoves, m_Time);
+  QString sBoard = fi.baseName();
+  // Calendar challenge
+  if (sBoard.toLower() == QStringLiteral("calendar_day")) {
+    QDate currentdate(QDate::currentDate());
+    int nTodayDay = currentdate.day();
+    sBoard += "_" + QString::number(nTodayDay).rightJustified(2, '0');
+  } else if (sBoard.toLower() == QStringLiteral("calendar_month_day")) {
+    QDate currentdate(QDate::currentDate());
+    int nTodayDay = currentdate.day();
+    int nTodayMonth = currentdate.month();
+    sBoard += "_" + QString::number(nTodayMonth).rightJustified(2, '0') + "_" +
+              QString::number(nTodayDay).rightJustified(2, '0');
+  }
+  emit checkHighscore(sBoard, m_nMoves, m_Time);
 
   // Update "unsolved lists" for random games
-  QString sBoard(m_sBoardFile);
+  sBoard = m_sBoardFile;
   // Skip update, if board is from user / not from share folder
-  if (sBoard.contains(m_sSharePath + "/boards/", Qt::CaseInsensitive)) {
+  if (sBoard.contains(m_pSettings->getSharePath() + "/boards/",
+                      Qt::CaseInsensitive)) {
     m_pBoardSelection->updateSolved(sBoard);
-    sBoard = sBoard.remove(m_sSharePath + "/boards/");
+    sBoard = sBoard.remove(m_pSettings->getSharePath() + "/boards/");
     if (m_sListAllUnsolved.indexOf(sBoard) >= 0) {
       m_sListAllUnsolved.removeAt(m_sListAllUnsolved.indexOf(sBoard));
     }
@@ -690,7 +717,7 @@ void IQPuzzle::loadLanguage(const QString &sLang) {
 #endif
                                         QLibraryInfo::TranslationsPath))) {
       IQPuzzle::switchTranslator(&m_translatorQt, "qt_" + sLang,
-                                 m_sSharePath + "/lang");
+                                 m_pSettings->getSharePath() + "/lang");
     }
 
     if (!IQPuzzle::switchTranslator(
@@ -698,7 +725,7 @@ void IQPuzzle::loadLanguage(const QString &sLang) {
             ":/" + qApp->applicationName().toLower() + "_" + sLang + ".qm")) {
       IQPuzzle::switchTranslator(
           &m_translator, qApp->applicationName().toLower() + "_" + sLang,
-          m_sSharePath + "/lang");
+          m_pSettings->getSharePath() + "/lang");
     }
   }
   m_pUi->retranslateUi(this);

@@ -1,33 +1,11 @@
-/**
- * \file board.cpp
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Complete board generation, block setup and check if puzzle is solved.
- */
+// SPDX-FileCopyrightText: 2012-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "./board.h"
 
 #include <QApplication>
 #include <QByteArray>
+#include <QDate>
 #include <QDebug>
 #include <QDir>
 #include <QGraphicsView>
@@ -38,14 +16,14 @@
 #include "./settings.h"
 
 Board::Board(QWidget *pParent, QGraphicsView *pGraphView, QString sBoardFile,
-             Settings *pSettings, const quint16 nGridSize,
-             const QString &sSavedGame, QObject *pParentObj)
+             const quint16 nGridSize, const QString &sSavedGame,
+             QObject *pParentObj)
     : m_pParent(pParent),
       m_pGraphView(pGraphView),
       m_sBoardFile(std::move(sBoardFile)),
-      m_pSettings(pSettings),
       m_bSavedGame(false),
-      m_nGridSize(nGridSize) {
+      m_nGridSize(nGridSize),
+      m_bUseSystemBackground(Settings::instance()->getUseSystemBackground()) {
   Q_UNUSED(pParentObj)
   m_pBoardConf = new QSettings(m_sBoardFile, QSettings::IniFormat);
   if (!sSavedGame.isEmpty()) {
@@ -53,7 +31,9 @@ Board::Board(QWidget *pParent, QGraphicsView *pGraphView, QString sBoardFile,
   }
   m_pSavedConf = new QSettings(sSavedGame, QSettings::IniFormat);
 
-  if (!m_pSettings->getUseSystemBackground()) {
+  connect(Settings::instance(), &Settings::updateUseSystemBackgroundColor, this,
+          &Board::updateUseSystemBackground);
+  if (!m_bUseSystemBackground) {
     this->setBackgroundBrush(
         QBrush(this->readColor(QStringLiteral("BGColor"))));
   }
@@ -69,9 +49,6 @@ Board::Board(QWidget *pParent, QGraphicsView *pGraphView, QString sBoardFile,
                          tr("Board grid size not valid.\n"
                             "Reduced grid to default."));
   }
-
-  connect(m_pSettings, &Settings::useSystemBackgroundColor, this,
-          &Board::useSystemBackground);
 }
 
 // ---------------------------------------------------------------------------
@@ -95,6 +72,15 @@ auto Board::setupBoard() -> bool {
   if (!m_bFreestyle) {
     this->drawBoard();
     this->drawGrid();
+    if (m_sBoardFile.endsWith(QStringLiteral("calendar/calendar_day.conf"),
+                              Qt::CaseInsensitive)) {
+      this->drawCalendar();
+    } else if (m_sBoardFile.endsWith(
+                   QStringLiteral("calendar/calendar_month_day.conf"),
+                   Qt::CaseInsensitive)) {
+      this->drawCalendar(true);
+    }
+
     m_pGraphView->setDragMode(QGraphicsView::NoDrag);
     m_pGraphView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     m_pGraphView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -119,7 +105,7 @@ auto Board::setupBoard() -> bool {
 void Board::drawBoard() {
   QBrush brush(this->readColor(QStringLiteral("Board/Color")));
   QPen pen(this->readColor(QStringLiteral("Board/BorderColor")));
-  if (m_pSettings->getUseSystemBackground()) {
+  if (m_bUseSystemBackground) {
     if (m_pBoardConf->contains(QStringLiteral("Barrier1/Color"))) {
       QColor cBG(this->readColor(QStringLiteral("BGColor")));
       if (cBG == this->readColor(QStringLiteral("Barrier1/Color")) &&
@@ -140,7 +126,7 @@ void Board::drawBoard() {
 void Board::drawGrid() {
   QLineF lineGrid;
   QPen pen(this->readColor(QStringLiteral("Board/GridColor")));
-  if (m_pSettings->getUseSystemBackground()) {
+  if (m_bUseSystemBackground) {
     if (m_pBoardConf->contains(QStringLiteral("Barrier1/Color"))) {
       QColor cBG(this->readColor(QStringLiteral("BGColor")));
       if (cBG == this->readColor(QStringLiteral("Barrier1/Color")) &&
@@ -163,6 +149,98 @@ void Board::drawGrid() {
                      m_BoardPoly.boundingRect().height() - 1);
     this->addLine(lineGrid, pen);
   }
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
+auto Board::drawCalendar(bool bMonth) -> bool {
+  QDate currentdate(QDate::currentDate());
+  int nTodayDay = currentdate.day();
+  int nTodayMonth = currentdate.month();
+  qDebug() << "Drawing calendar - day:" << nTodayDay << "month:" << nTodayMonth;
+
+  if (nTodayDay == 0 || nTodayMonth == 0) {
+    qWarning() << "Date could not be fetched - day:" << nTodayDay
+               << "month:" << nTodayMonth;
+    QMessageBox::warning(m_pParent, tr("Warning"),
+                         tr("Calendar couldn't be created!"));
+    return false;
+  }
+
+  QFont font("Arial");
+  font.setStyleHint(QFont::SansSerif);
+  QColor cDayText(this->readColor(QStringLiteral("Day/TextColor")));
+  QColor cDayHighlightText(
+      this->readColor(QStringLiteral("Day/TextHighlightColor")));
+  int nOffset = 0;
+
+  if (bMonth) {
+    QColor cMonthText(this->readColor(QStringLiteral("Month/TextColor")));
+    QColor cMonthHighlightText(
+        this->readColor(QStringLiteral("Month/TextHighlightColor")));
+
+    nOffset = 2;
+    font.setPointSize(m_nGridSize / 3);
+    QStringList sListMonths;
+    sListMonths << tr("Jan") << tr("Feb") << tr("Mar") << tr("Apr") << tr("May")
+                << tr("Jun") << tr("Jul") << tr("Aug") << tr("Sep") << tr("Oct")
+                << tr("Nov") << tr("Dec");
+
+    int nMonth = 1;
+    for (int row = 0; row < 2; ++row) {
+      for (int col = 0; col < 6; ++col) {
+        QGraphicsTextItem *text =
+            this->addText(sListMonths.at(nMonth - 1), font);
+        if (nMonth == nTodayMonth) {
+          text->setDefaultTextColor(cMonthHighlightText);
+        } else {
+          text->setDefaultTextColor(cMonthText);
+        }
+
+        // Text size
+        QRectF br = text->boundingRect();
+        // Grid cell center
+        qreal cellCenterX = col * m_nGridSize + m_nGridSize / 2.0;
+        qreal cellCenterY = row * m_nGridSize + m_nGridSize / 2.0;
+        // Set top-left so that BoundingRect is centered
+        qreal x = cellCenterX - br.width() / 2.0;
+        qreal y = cellCenterY - br.height() / 2.0;
+        text->setPos(x, y);
+        nMonth++;
+      }
+    }
+  }
+
+  font.setPointSize(m_nGridSize / 2);
+  int nDay = 1;
+  for (int row = 0; row < 5; ++row) {
+    for (int col = 0; col < 7; ++col) {
+      if (row == 4 && col == 3) {
+        break;
+      }
+      QString sDay = QString::number(nDay).rightJustified(2, '0');
+      QGraphicsTextItem *text = this->addText(sDay, font);
+      if (nDay == nTodayDay) {
+        text->setDefaultTextColor(cDayHighlightText);
+      } else {
+        text->setDefaultTextColor(cDayText);
+      }
+
+      // Text size
+      QRectF br = text->boundingRect();
+      // Grid cell center
+      qreal cellCenterX = col * m_nGridSize + m_nGridSize / 2.0;
+      qreal cellCenterY = (row + nOffset) * m_nGridSize + m_nGridSize / 2.0;
+      // Set top-left so that BoundingRect is centered
+      qreal x = cellCenterX - br.width() / 2.0;
+      qreal y = cellCenterY - br.height() / 2.0;
+      text->setPos(x, y);
+      nDay++;
+    }
+  }
+
+  return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -222,7 +300,6 @@ auto Board::createBlocks() -> bool {
     m_listBlocks.append(new Block(
         i, polygon, this->readColor(sPrefix + "/Color"),
         this->readColor(sPrefix + "/BorderColor"), m_nGridSize, &m_listBlocks,
-        m_pSettings,
         Board::readStartPosition(tmpSet, sPrefix + "/StartPos", m_pParent)));
     if (!m_bFreestyle) {
       connect(m_listBlocks.last(), &Block::checkPuzzleSolved, this,
@@ -272,10 +349,78 @@ auto Board::createBarriers() -> bool {
         new Block(m_nNumOfBlocks + i, polygon,
                   this->readColor(sPrefix + "/Color", bIsBoardBG),
                   this->readColor(sPrefix + "/BorderColor", bIsBoardBG),
-                  m_nGridSize, &m_listBlocks, m_pSettings,
+                  m_nGridSize, &m_listBlocks,
                   Board::readStartPosition(m_pBoardConf, sPrefix + "/StartPos",
                                            m_pParent),
                   true));
+  }
+
+  // Create calendar date barrier
+  QDate currentdate(QDate::currentDate());
+  int nTodayDay = currentdate.day();
+  int nTodayMonth = currentdate.month();
+  int nX = (nTodayDay - 1) % 7;  // 7 = number of columns
+  int nY = (nTodayDay - 1) / 7;
+  if (m_sBoardFile.endsWith(QStringLiteral("calendar/calendar_day.conf"),
+                            Qt::CaseInsensitive)) {
+    // Day
+    QPolygonF dateBarrier = this->readPolygon(m_pBoardConf, "Day/Polygon");
+    if (dateBarrier.isEmpty()) {
+      this->clear();  // Clear all objects
+      qWarning() << "POLYGON IS EMPTY FOR DAY BARRIER";
+      QMessageBox::warning(m_pParent, tr("Warning"),
+                           tr("Polygon not valid:") + "\nDay");
+      return false;
+    }
+
+    QColor cColor(this->readColor("Day/Color"));
+    cColor.setAlpha(128);
+    m_listBlocks.append(new Block(m_nNumOfBlocks + 1, dateBarrier, cColor,
+                                  this->readColor("Day/BorderColor"),
+                                  m_nGridSize, &m_listBlocks, QPointF(nX, nY),
+                                  true));
+  } else if (m_sBoardFile.endsWith(
+                 QStringLiteral("calendar/calendar_month_day.conf"),
+                 Qt::CaseInsensitive)) {
+    // Day
+    QPolygonF dateBarrier = this->readPolygon(m_pBoardConf, "Day/Polygon");
+    if (dateBarrier.isEmpty()) {
+      this->clear();  // Clear all objects
+      qWarning() << "POLYGON IS EMPTY FOR DAY BARRIER";
+      QMessageBox::warning(m_pParent, tr("Warning"),
+                           tr("Polygon not valid:") + "\nDay");
+      return false;
+    }
+
+    QColor cColor(this->readColor("Day/Color"));
+    cColor.setAlpha(128);
+    m_listBlocks.append(new Block(m_nNumOfBlocks + 1, dateBarrier, cColor,
+                                  this->readColor("Day/BorderColor"),
+                                  m_nGridSize, &m_listBlocks,
+                                  QPointF(nX, nY + 2), true));
+
+    // Month
+    nX = nTodayMonth - 1;
+    nY = 0;
+    if (nTodayMonth > 6) {
+      nX -= 6;
+      nY = 1;
+    }
+    dateBarrier = this->readPolygon(m_pBoardConf, "Month/Polygon");
+    if (dateBarrier.isEmpty()) {
+      this->clear();  // Clear all objects
+      qWarning() << "POLYGON IS EMPTY FOR MONTH BARRIER";
+      QMessageBox::warning(m_pParent, tr("Warning"),
+                           tr("Polygon not valid:") + "\nMonth");
+      return false;
+    }
+
+    cColor = this->readColor("Month/Color");
+    cColor.setAlpha(128);
+    m_listBlocks.append(new Block(m_nNumOfBlocks + 1, dateBarrier, cColor,
+                                  this->readColor("Month/BorderColor"),
+                                  m_nGridSize, &m_listBlocks, QPointF(nX, nY),
+                                  true));
   }
 
   return true;
@@ -284,9 +429,9 @@ auto Board::createBarriers() -> bool {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-auto Board::readColor(const QString &sKey,
-                      const bool bColorIsBoardBG) const -> QColor {
-  if (bColorIsBoardBG && m_pSettings->getUseSystemBackground()) {
+auto Board::readColor(const QString &sKey, const bool bColorIsBoardBG) const
+    -> QColor {
+  if (bColorIsBoardBG && m_bUseSystemBackground) {
     return QApplication::palette().color(QPalette::Base);
   }
 
@@ -527,12 +672,13 @@ void Board::doZoom() {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-auto Board::useSystemBackground(const bool bUseSysColor) -> void {
-  if (!bUseSysColor) {
+auto Board::updateUseSystemBackground(const bool bUseSystemBackground) -> void {
+  m_bUseSystemBackground = bUseSystemBackground;
+  if (m_bUseSystemBackground) {
+    this->setBackgroundBrush(Qt::NoBrush);
+  } else {
     this->setBackgroundBrush(
         QBrush(this->readColor(QStringLiteral("BGColor"))));
-  } else {
-    this->setBackgroundBrush(Qt::NoBrush);
   }
 }
 
@@ -572,7 +718,7 @@ void Board::saveGame(const QString &sSaveFile, const QString &sTime,
       sPoly +=
           QString::number(point.x()) + "," + QString::number(point.y()) + " | ";
     }
-    sPoly.remove(sPoly.length() - 3, sPoly.length());
+    sPoly.remove(sPoly.size() - 3, sPoly.size());
 
     saveConf.setValue(sPrefix + "/Polygon", sPoly);
     QPointF pos = m_listBlocks.at(i)->getPosition();

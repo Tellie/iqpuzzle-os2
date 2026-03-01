@@ -1,4 +1,4 @@
-# iQPuzzle [![Build status](https://ci.appveyor.com/api/projects/status/wn8nxv8qt26j1eyh/branch/main?svg=true)](https://ci.appveyor.com/project/ElTh0r0/iqpuzzle/branch/main) ![CI Workflow](https://github.com/ElTh0r0/iqpuzzle/actions/workflows/ci.yml/badge.svg)
+# iQPuzzle
 iQPuzzle is a diverting I.Q. challenging pentomino puzzle. Pentominos are used as puzzle pieces and more than **360 different board shapes** are available, which have to be filled with them.
 
 ![Screenshot](https://user-images.githubusercontent.com/26674558/93668022-33d13180-fa8a-11ea-9279-b8f4d8c5c217.png)
@@ -8,15 +8,20 @@ iQPuzzle is a diverting I.Q. challenging pentomino puzzle. Pentominos are used a
 * [AppImage](https://github.com/ElTh0r0/iqpuzzle/releases/latest)
 * [Flatpak](https://flathub.org/apps/details/com.github.elth0r0.iqpuzzle)
 * [Ubuntu PPA](https://launchpad.net/~elthoro/+archive/iqpuzzle)
-* [Builds for Cent OS, Debian, Fedora, openSUSE, SLE](http://software.opensuse.org/download.html?project=home%3AElThoro&package=iqpuzzle)
+* [Builds for Debian, Fedora, openSUSE, SLE](http://software.opensuse.org/download.html?project=home%3AElThoro&package=iqpuzzle)
 * [Arch AUR](https://aur.archlinux.org/packages/iqpuzzle/)
 * [Build for Mageia Cauldron](https://madb.mageialinux-online.org/show?distribution=cauldron&architecture=x86_64&graphical=0&rpm=iqpuzzle)
 * [Gentoo ebuild](https://github.com/ElTh0r0/iqpuzzle/tree/packaging/ebuild)
 * [Build for OS/2](http://www.ecsoft2.org/iqpuzzle)
 * [FreeBSD Ports](https://www.freshports.org/games/iqpuzzle) / [DPorts](https://github.com/DragonFlyBSD/DPorts/tree/master/games/iqpuzzle)
 
+## Game controls
+The game is controlled with the mouse. By default, the puzzle pieces are moved with the left mouse button using drag & drop, the mouse wheel can be used to rotate puzzle pieces, and the right mouse button can be used to flip them.
+
+The assigned mouse buttons can be changed via the **‘Settings -> Configure iQPuzzle’** menu.
+
 ## Help translating
-New translations and corrections are highly welcome! You can either fork the source code from GitHub, make your changes and create a pull request or you can participate on Transifex: https://www.transifex.com/elth0r0/iqpuzzle/
+New translations and corrections are highly welcome! You can either fork the source code from GitHub, make your changes and create a pull request or you can participate on Transifex: https://explore.transifex.com/elth0r0/iqpuzzle/
 
 Additionally see [this page](https://github.com/ElTh0r0/iqpuzzle/issues/10) at GitHub.
 
