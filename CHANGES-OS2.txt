@@ -1,5 +1,9 @@
 History of OS/2-specific changes for iqpuzzle
 ===========================================
+v1.5.0 (01. Mar 2026)
+Add calendar challenge: A daily board challenge based on the current date.
+
+------------------------------------------------------------------
 v1.4.2 (02. Mar 2025)
 Update Chinese (zh_CN, zh_TW) translation (thanks to liulitchi)
 Retranslate board selection dialog without application restart

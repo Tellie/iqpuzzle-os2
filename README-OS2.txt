@@ -5,7 +5,7 @@
 ****                All the money you send will go to the QT5 project                          ****
 ===================================================================================================
 
-iqpuzzle v1.4.2   
+iqpuzzle v1.5.0   
 
  CONTENTS OF THIS FILE
  =====================
@@ -32,7 +32,7 @@ iqpuzzle v1.4.2
 1. INTRODUCTION
 ===============
 
-Welcome to iqpuzzle v1.4.2 port for OS/2 and eComStation.
+Welcome to iqpuzzle v1.5.0 port for OS/2 and eComStation.
 
 iQPuzzle is a diverting I.Q. challenging pentomino puzzle.
 Pentominos are used as puzzle pieces and more than 300 different board shapes are available, which have to be filled with them.
