@@ -1,22 +1,9 @@
-#  This file is part of iQPuzzle.
-#  Copyright (C) 2012-present Thorsten Roth
-#
-#  iQPuzzle is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  iQPuzzle is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2024-2025 Thorsten Roth
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 cmake_minimum_required(VERSION 3.16)
 project(iQPuzzle
-    VERSION 1.4.2
+    VERSION 1.5.0
     DESCRIPTION "IQ challenging pentomino puzzle"
     LANGUAGES C CXX
 )
@@ -76,8 +63,20 @@ target_compile_definitions(iqpuzzle
         APP_COPY="${PROJECT_COPYRIGHT}"
         APP_DESC="${PROJECT_DESCRIPTION}"
         QT_NO_FOREACH
-        $<$<CONFIG:DEBUG>:QT_DISABLE_DEPRECATED_BEFORE=0x060800>
+        $<$<CONFIG:DEBUG>:QT_DISABLE_DEPRECATED_BEFORE=0x060900>
 )
+
+if(MSVC)
+    target_compile_options(iqpuzzle
+        PRIVATE
+            $<$<CONFIG:DEBUG>:/W4 /permissive->
+    )
+else()
+    target_compile_options(iqpuzzle
+        PRIVATE
+            $<$<CONFIG:DEBUG>:-Wall -Wextra -pedantic>
+    )
+endif()
 
 target_link_libraries(iqpuzzle PRIVATE
     ${QT_MAIN_VERSION}::Core
@@ -94,6 +93,7 @@ set(HEADERS
     boardselection.h
     highscore.h
     settings.h
+    settingsdialog.h
 )
 
 set(SOURCES
@@ -106,13 +106,14 @@ set(SOURCES
     boardselection.cpp
     highscore.cpp
     settings.cpp
+    settingsdialog.cpp
 )
 
 set(FORMS
     iqpuzzle.ui
     boardpreview.ui
     boardselection.ui
-    settings.ui
+    settingsdialog.ui
 )
 
 set(RESOURCES

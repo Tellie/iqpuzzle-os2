@@ -1,28 +1,5 @@
-/**
- * \file highscore.cpp
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Generating, reading, showing highscore of a specific board.
- */
+// SPDX-FileCopyrightText: 2014-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "./highscore.h"
 
@@ -52,9 +29,23 @@ Highscore::Highscore(QWidget *pParent, QObject *pParentObj)
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-void Highscore::showHighscore(const QString &sBoard) {
+void Highscore::showHighscore(QString sBoard) {
   Qt::AlignmentFlag Align;
   QDialog dialog(m_pParent);
+
+  // Calendar challenge
+  if (sBoard.toLower() == QStringLiteral("calendar_day")) {
+    QDate currentdate(QDate::currentDate());
+    int nTodayDay = currentdate.day();
+    sBoard += "_" + QString::number(nTodayDay).rightJustified(2, '0');
+  } else if (sBoard.toLower() == QStringLiteral("calendar_month_day")) {
+    QDate currentdate(QDate::currentDate());
+    int nTodayDay = currentdate.day();
+    int nTodayMonth = currentdate.month();
+    sBoard += "_" + QString::number(nTodayMonth).rightJustified(2, '0') + "_" +
+              QString::number(nTodayDay).rightJustified(2, '0');
+  }
+
   dialog.setWindowTitle(tr("Highscore") + " - " + sBoard);
   dialog.setWindowFlags(dialog.window()->windowFlags() &
                         ~Qt::WindowContextHelpButtonHint);
@@ -185,8 +176,8 @@ void Highscore::insertHighscore(const QString &sBoard, const quint8 nPosition,
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-auto Highscore::readHighscore(const QString &sBoard,
-                              const QString &sKey) const -> QStringList {
+auto Highscore::readHighscore(const QString &sBoard, const QString &sKey) const
+    -> QStringList {
   QStringList sListTemp;
   QByteArray ba(m_pHighscore->value(sBoard + "/" + sKey, "fHw=").toByteArray());
   QString sTemp(QString::fromLatin1(QByteArray::fromBase64(ba)));

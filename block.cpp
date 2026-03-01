@@ -1,28 +1,5 @@
-/**
- * \file block.cpp
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Block handling (move, rotate, collision check, ...).
- */
+// SPDX-FileCopyrightText: 2012-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "./block.h"
 
@@ -35,8 +12,7 @@
 
 Block::Block(const quint16 nID, QPolygonF shape, const QBrush &bgcolor,
              QPen border, quint16 nGrid, QList<Block *> *pListBlocks,
-             Settings *pSettings, QPointF posTopLeft, const bool bBarrier,
-             QObject *pParentObj)
+             QPointF posTopLeft, const bool bBarrier, QObject *pParentObj)
     : m_nID(nID),
       m_nZBlock(1000),
       m_nZBarrier(1),
@@ -46,7 +22,6 @@ Block::Block(const quint16 nID, QPolygonF shape, const QBrush &bgcolor,
       m_borderPen(std::move(border)),
       m_nGrid(nGrid),
       m_pListBlocks(pListBlocks),
-      m_pSettings(pSettings),
       m_bActive(false) {
   Q_UNUSED(pParentObj)
   if (!m_PolyShape.isClosed()) {
@@ -129,7 +104,7 @@ void Block::mousePressEvent(QGraphicsSceneMouseEvent *p_Event) {
   this->resetBrushStyle();
   if (button == Qt::LeftButton) button |= p_Event->modifiers();
 
-  int nIndex(m_pSettings->getMouseControls().indexOf(button));
+  int nIndex(Settings::instance()->getMouseControls().indexOf(button));
   if (nIndex >= 0) {
     switch (nIndex) {
       case 0:
@@ -159,7 +134,8 @@ void Block::mousePressEvent(QGraphicsSceneMouseEvent *p_Event) {
 // ---------------------------------------------------------------------------
 
 void Block::mouseMoveEvent(QGraphicsSceneMouseEvent *p_Event) {
-  if (0 == m_pSettings->getMouseControls().indexOf(p_Event->buttons())) {
+  if (0 ==
+      Settings::instance()->getMouseControls().indexOf(p_Event->buttons())) {
     this->setPos(p_Event->scenePos() - m_posMouseSelected);
     update();
   }
@@ -169,7 +145,8 @@ void Block::mouseMoveEvent(QGraphicsSceneMouseEvent *p_Event) {
 // ---------------------------------------------------------------------------
 
 void Block::mouseReleaseEvent(QGraphicsSceneMouseEvent *p_Event) {
-  if (0 == m_pSettings->getMouseControls().indexOf(p_Event->button())) {
+  if (0 ==
+      Settings::instance()->getMouseControls().indexOf(p_Event->button())) {
     this->moveBlock(true);
     update();
   }
@@ -183,8 +160,8 @@ void Block::mouseReleaseEvent(QGraphicsSceneMouseEvent *p_Event) {
 void Block::wheelEvent(QGraphicsSceneWheelEvent *p_Event) {
   this->resetBrushStyle();
 
-  int nIndex(m_pSettings->getMouseControls().indexOf(
-      (quint32(p_Event->orientation()) | Settings::nSHIFT)));
+  int nIndex(Settings::instance()->getMouseControls().indexOf(
+      (quint32(p_Event->orientation()) | Settings::SHIFT)));
   if (nIndex >= 0) {
     switch (nIndex) {
       case 1:

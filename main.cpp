@@ -1,34 +1,5 @@
-/**
- * \file main.cpp
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Main function, start application.
- */
-
-/** \mainpage
- * \section Introduction
- * iQPuzzle is an IQ challenging pentomino puzzle.<br />
- * GitHub: https://github.com/ElTh0r0/iqpuzzle
- */
+// SPDX-FileCopyrightText: 2012-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -37,6 +8,7 @@
 #include <QTextStream>
 
 #include "./iqpuzzle.h"
+#include "./settings.h"
 
 static QFile logfile;
 static QTextStream out(&logfile);
@@ -89,6 +61,7 @@ auto main(int argc, char *argv[]) -> int {
 #if defined(Q_OS_MACOS)
   sSharePath = app.applicationDirPath() + "/../Resources/";
 #endif
+  Settings::instance()->setSharePath(sSharePath);
 
   QStringList sListPaths =
       QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
@@ -107,7 +80,7 @@ auto main(int argc, char *argv[]) -> int {
   setupLogger(userDataDir.absolutePath() + "/" + sDebugFile,
               app.applicationName(), app.applicationVersion());
 
-  IQPuzzle myIQPuzzle(userDataDir, sSharePath);
+  IQPuzzle myIQPuzzle(userDataDir);
   myIQPuzzle.show();
   int nRet = app.exec();
 

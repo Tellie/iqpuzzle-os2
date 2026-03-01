@@ -1,39 +1,21 @@
-/**
- * \file boardpreview.cpp
- *
- * \section LICENSE
- *
- * Copyright (C) 2012-present Thorsten Roth
- *
- * This file is part of iQPuzzle.
- *
- * iQPuzzle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * iQPuzzle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with iQPuzzle.  If not, see <https://www.gnu.org/licenses/>.
- *
- * \section DESCRIPTION
- * Board preview widget.
- */
+// SPDX-FileCopyrightText: 2024-2025 Thorsten Roth
+// SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "boardpreview.h"
+#include "./boardpreview.h"
 
 #include <QFileInfo>
 #include <QSettings>
 
 #include "ui_boardpreview.h"
 
-BoardPreview::BoardPreview(const QString &sFilePath, const bool bSolved,
-                           const QSize previewsize, QWidget *pParent)
-    : QWidget(pParent), m_pUi(new Ui::BoardPreview), m_sFilePath(sFilePath) {
+BoardPreview::BoardPreview(const QString &sFilePath, const QString &sCategory,
+                           const bool bSolved, const QSize previewsize,
+                           QWidget *pParent)
+    : QWidget(pParent),
+      m_pUi(new Ui::BoardPreview),
+      m_sFilePath(sFilePath),
+      m_sCategory(sCategory),
+      m_bSolved(bSolved) {
   m_pUi->setupUi(this);
   QFileInfo fi(m_sFilePath);
   QString sFile(fi.baseName());
@@ -41,7 +23,7 @@ BoardPreview::BoardPreview(const QString &sFilePath, const bool bSolved,
   sFile.replace('_', ' ');
   m_pUi->lbl_BoardName->setText(sFile);
 
-  if (bSolved) {
+  if (m_bSolved) {
     m_pUi->lblSolved->setText(tr("Solved") +
                               ": <img src=\":/icons/emblem-checked.png\">");
   } else {
@@ -107,14 +89,16 @@ void BoardPreview::mousePressEvent(QMouseEvent *p_Event) {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-auto BoardPreview::getName() -> const QString {
-  QFileInfo fi(m_sFilePath);
-  return fi.baseName();
-}
+auto BoardPreview::getCategory() -> const QString & { return m_sCategory; }
+
+auto BoardPreview::isSolved() -> bool { return m_bSolved; }
 
 void BoardPreview::updateSolved() {
-  m_pUi->lblSolved->setText(tr("Solved") +
-                            ": <img src=\":/icons/emblem-checked.png\">");
+  if (!m_bSolved) {
+    m_bSolved = true;
+    m_pUi->lblSolved->setText(tr("Solved") +
+                              ": <img src=\":/icons/emblem-checked.png\">");
+  }
 }
 
 // ---------------------------------------------------------------------------
