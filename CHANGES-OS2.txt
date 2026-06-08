@@ -1,5 +1,10 @@
 History of OS/2-specific changes for iqpuzzle
 ===========================================
+v1.5.1 (08. Jun 2026)
+Add Ukrainian translation - thanks to SomeTr!
+Move project to Codeberg
+
+---------------------------------------------------------------
 v1.5.0 (01. Mar 2026)
 Add calendar challenge: A daily board challenge based on the current date.
 
