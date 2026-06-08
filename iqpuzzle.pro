@@ -9,8 +9,8 @@ unix: !macx {
        TARGET  = iQPuzzle
 }
 
-win32:VERSION  = 1.5.0.0
-else:VERSION   = 1.5.0
+win32:VERSION  = 1.5.1.0
+else:VERSION   = 1.5.1
 
 QMAKE_TARGET_PRODUCT     = "iQPuzzle"
 QMAKE_TARGET_DESCRIPTION = "IQ challenging pentomino puzzle"
@@ -32,7 +32,7 @@ DEFINES       += QT_NO_FOREACH
 
 CONFIG(debug, debug|release) {
   CONFIG      += warn_on
-  DEFINES     += QT_DISABLE_DEPRECATED_BEFORE=0x060900
+  DEFINES     += QT_DISABLE_DEPRECATED_BEFORE=0x061100
 }
 
 SOURCES       += main.cpp\
@@ -66,7 +66,6 @@ RESOURCES      = data/data.qrc \
 
 TRANSLATIONS  += lang/iqpuzzle_bg.ts \
                  lang/iqpuzzle_de.ts \
-                 lang/iqpuzzle_en.ts \
                  lang/iqpuzzle_fr.ts \
                  lang/iqpuzzle_el_GR.ts \
                  lang/iqpuzzle_it.ts \
@@ -76,6 +75,7 @@ TRANSLATIONS  += lang/iqpuzzle_bg.ts \
                  lang/iqpuzzle_pt.ts \
                  lang/iqpuzzle_pt_BR.ts \
                  lang/iqpuzzle_ru.ts \
+                 lang/iqpuzzle_uk.ts \
                  lang/iqpuzzle_zh_CN.ts \
                  lang/iqpuzzle_zh_TW.ts
 
@@ -105,7 +105,7 @@ unix: !macx {
     data.files    += data/boards
 
     desktop.path   = $$PREFIX/share/applications
-    desktop.files += data/unix/com.github.elth0r0.iqpuzzle.desktop
+    desktop.files += data/unix/page.codeberg.elth0r0.iqpuzzle.desktop
 
     icons.path     = $$PREFIX/share/icons
     icons.files   += icons/hicolor
@@ -117,7 +117,7 @@ unix: !macx {
     man.files     += man/it
 
     meta.path      = $$PREFIX/share/metainfo
-    meta.files    += data/unix/com.github.elth0r0.iqpuzzle.metainfo.xml
+    meta.files    += data/unix/page.codeberg.elth0r0.iqpuzzle.metainfo.xml
 
     INSTALLS      += target \
                      data \

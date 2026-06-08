@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.16)
 project(iQPuzzle
-    VERSION 1.5.0
+    VERSION 1.5.1
     DESCRIPTION "IQ challenging pentomino puzzle"
     LANGUAGES C CXX
 )
@@ -63,7 +63,7 @@ target_compile_definitions(iqpuzzle
         APP_COPY="${PROJECT_COPYRIGHT}"
         APP_DESC="${PROJECT_DESCRIPTION}"
         QT_NO_FOREACH
-        $<$<CONFIG:DEBUG>:QT_DISABLE_DEPRECATED_BEFORE=0x060900>
+        $<$<CONFIG:DEBUG>:QT_DISABLE_DEPRECATED_BEFORE=0x061100>
 )
 
 if(MSVC)
@@ -124,7 +124,6 @@ set(RESOURCES
 set(TRANSLATIONS
     lang/iqpuzzle_bg.ts
     lang/iqpuzzle_de.ts
-    lang/iqpuzzle_en.ts
     lang/iqpuzzle_fr.ts
     lang/iqpuzzle_el_GR.ts
     lang/iqpuzzle_it.ts
@@ -134,6 +133,7 @@ set(TRANSLATIONS
     lang/iqpuzzle_pt.ts
     lang/iqpuzzle_pt_BR.ts
     lang/iqpuzzle_ru.ts
+    lang/iqpuzzle_uk.ts
     lang/iqpuzzle_zh_CN.ts
     lang/iqpuzzle_zh_TW.ts
 )
@@ -146,8 +146,8 @@ target_sources(iqpuzzle PRIVATE ${HEADERS} ${SOURCES} ${FORMS} ${RESOURCES})
 if(LINUX)
     include(GNUInstallDirs)
     install(TARGETS iqpuzzle DESTINATION ${CMAKE_INSTALL_BINDIR})
-    install(FILES data/unix/com.github.elth0r0.iqpuzzle.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
-    install(FILES data/unix/com.github.elth0r0.iqpuzzle.metainfo.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo)
+    install(FILES data/unix/page.codeberg.elth0r0.iqpuzzle.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+    install(FILES data/unix/page.codeberg.elth0r0.iqpuzzle.metainfo.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo)
     install(DIRECTORY data/boards DESTINATION ${CMAKE_INSTALL_DATADIR}/iqpuzzle)
     install(DIRECTORY icons/hicolor DESTINATION ${CMAKE_INSTALL_DATADIR}/icons)
     add_subdirectory(man)

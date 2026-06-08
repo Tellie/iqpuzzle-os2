@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<TS version="2.1" language="uk">
 <context>
     <name>Board</name>
     <message>
@@ -17,94 +17,94 @@
         <location filename="../board.cpp" line="458"/>
         <location filename="../board.cpp" line="563"/>
         <source>Warning</source>
-        <translation>Aviso</translation>
+        <translation>Попередження</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="49"/>
         <source>Board grid size not valid.
 Reduced grid to default.</source>
-        <translation>Tamanho da grade do tabuleiro não é valido. 
-Grade reduzida para o tamanho padrão.</translation>
+        <translation>Розмір сітки ігрового поля не відповідає вимогам.
+Сітку зменшено до розміру за замовчуванням.</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="68"/>
         <source>Board polygon not valid.</source>
-        <translation>Polígono do tabuleiro não é válido.</translation>
+        <translation>Неправильний контур поля.</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="167"/>
         <source>Calendar couldn&apos;t be created!</source>
-        <translation>Não foi possível criar o calendário!</translation>
+        <translation>Не вдалося створити календар!</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="186"/>
         <source>Jan</source>
-        <translation>Jan</translation>
+        <translation>січ</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="186"/>
         <source>Feb</source>
-        <translation>Fev</translation>
+        <translation>лют</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="186"/>
         <source>Mar</source>
-        <translation>Mar</translation>
+        <translation>бер</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="186"/>
         <source>Apr</source>
-        <translation>Abr</translation>
+        <translation>кві</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="186"/>
         <source>May</source>
-        <translation>Mai</translation>
+        <translation>тра</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="187"/>
         <source>Jun</source>
-        <translation>Jun</translation>
+        <translation>чер</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="187"/>
         <source>Jul</source>
-        <translation>Jul</translation>
+        <translation>лип</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="187"/>
         <source>Aug</source>
-        <translation>Ago</translation>
+        <translation>сер</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="187"/>
         <source>Sep</source>
-        <translation>Set</translation>
+        <translation>вер</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="187"/>
         <source>Oct</source>
-        <translation>Out</translation>
+        <translation>жов</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="188"/>
         <source>Nov</source>
-        <translation>Nov</translation>
+        <translation>лис</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="188"/>
         <source>Dec</source>
-        <translation>Dez</translation>
+        <translation>гру</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="264"/>
         <source>Hint</source>
-        <translation>Dica</translation>
+        <translation>Підказка</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="265"/>
         <source>Not all pieces are needed for a solution.</source>
-        <translation>Nem todas as peças serão necessárias para a solução.</translation>
+        <translation>Не всі фігури необхідні для розв’язання головоломки.</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="295"/>
@@ -113,27 +113,27 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../board.cpp" line="391"/>
         <location filename="../board.cpp" line="414"/>
         <source>Polygon not valid:</source>
-        <translation>Polígono não válido:</translation>
+        <translation>Неправильний контур:</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="315"/>
         <source>Could not find valid blocks.</source>
-        <translation>Não foi possível achar blocos válidos.</translation>
+        <translation>Не вдалося знайти дійсних фігур.</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="446"/>
         <source>No color defined - using fallback:</source>
-        <translation>Nenhuma cor definida - usando a reserva:</translation>
+        <translation>Не вказано колір — застосовано типовий:</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="459"/>
         <source>Invalid color defined - using fallback:</source>
-        <translation>Cor inválida definida - usando a reserva:</translation>
+        <translation>Вказано недійсний колір — застосовано типовий:</translation>
     </message>
     <message>
         <location filename="../board.cpp" line="564"/>
         <source>Invalid start position - using fallback:</source>
-        <translation>Posição inicial inválida - usando a reserva:</translation>
+        <translation>Неправильна стартова позиція — застосовано типову:</translation>
     </message>
 </context>
 <context>
@@ -142,23 +142,23 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../boarddialog.cpp" line="23"/>
         <location filename="../boarddialog.cpp" line="55"/>
         <source>Solutions</source>
-        <translation>Soluções</translation>
+        <translation>Розв’язків</translation>
     </message>
     <message>
         <location filename="../boarddialog.cpp" line="24"/>
         <source>Preview</source>
-        <translation>Pré-visualizar</translation>
+        <translation>Попередній перегляд</translation>
     </message>
     <message>
         <location filename="../boarddialog.cpp" line="29"/>
         <location filename="../boarddialog.cpp" line="62"/>
         <source>No preview available</source>
-        <translation>Nenhuma pré-visualização disponível</translation>
+        <translation>Попередній перегляд недоступний</translation>
     </message>
     <message>
         <location filename="../boarddialog.cpp" line="53"/>
         <source>Unknown</source>
-        <translation>Desconhecido</translation>
+        <translation>Невідомо</translation>
     </message>
 </context>
 <context>
@@ -169,24 +169,24 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../boardpreview.cpp" line="99"/>
         <location filename="../boardpreview.cpp" line="116"/>
         <source>Solved</source>
-        <translation>Resolvido</translation>
+        <translation>Розв’язана</translation>
     </message>
     <message>
         <location filename="../boardpreview.cpp" line="52"/>
         <location filename="../boardpreview.cpp" line="111"/>
         <source>Unknown</source>
-        <translation>Desconhecido</translation>
+        <translation>Невідомо</translation>
     </message>
     <message>
         <location filename="../boardpreview.cpp" line="58"/>
         <location filename="../boardpreview.cpp" line="113"/>
         <source>Solutions</source>
-        <translation>Soluções</translation>
+        <translation>Розв’язків</translation>
     </message>
     <message>
         <location filename="../boardpreview.cpp" line="70"/>
         <source>No preview available</source>
-        <translation>Nenhuma pré-visualização disponível</translation>
+        <translation>Попередній перегляд недоступний</translation>
     </message>
 </context>
 <context>
@@ -195,17 +195,17 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../boardselection.ui" line="20"/>
         <location filename="../boardselection.cpp" line="117"/>
         <source>Load board</source>
-        <translation>Carregar tabuleiro</translation>
+        <translation>Завантажити поле</translation>
     </message>
     <message>
         <location filename="../boardselection.ui" line="33"/>
         <source>Open own board...</source>
-        <translation>Abrir seu próprio tabuleiro...</translation>
+        <translation>Відкрити власне поле...</translation>
     </message>
     <message>
         <location filename="../boardselection.cpp" line="119"/>
         <source>Board files</source>
-        <translation>Arquivos de tabuleiro</translation>
+        <translation>Файли полів</translation>
     </message>
 </context>
 <context>
@@ -214,32 +214,32 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../highscore.cpp" line="49"/>
         <location filename="../highscore.cpp" line="149"/>
         <source>Highscore</source>
-        <translation>Pontuação máxima</translation>
+        <translation>Рекорди</translation>
     </message>
     <message>
         <location filename="../highscore.cpp" line="57"/>
         <source>Position</source>
-        <translation>Posição</translation>
+        <translation>Місце</translation>
     </message>
     <message>
         <location filename="../highscore.cpp" line="59"/>
         <source>Name</source>
-        <translation>Nome</translation>
+        <translation>Ім’я</translation>
     </message>
     <message>
         <location filename="../highscore.cpp" line="61"/>
         <source>Time</source>
-        <translation>Tempo</translation>
+        <translation>Час</translation>
     </message>
     <message>
         <location filename="../highscore.cpp" line="63"/>
         <source>Moves</source>
-        <translation>Movimentos</translation>
+        <translation>Ходів</translation>
     </message>
     <message>
         <location filename="../highscore.cpp" line="150"/>
         <source>Please insert your name for a new highscore:</source>
-        <translation>Por favor inserir seu nome para uma nova pontuação máxima:</translation>
+        <translation>Вкажіть своє ім’я для таблиці рекордів:</translation>
     </message>
 </context>
 <context>
@@ -247,164 +247,164 @@ Grade reduzida para o tamanho padrão.</translation>
     <message>
         <location filename="../iqpuzzle.ui" line="41"/>
         <source>&amp;Game</source>
-        <translation>&amp;Jogo</translation>
+        <translation>&amp;Гра</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="45"/>
         <source>R&amp;andom game</source>
-        <translation>J&amp;ogo aleatório</translation>
+        <translation>В&amp;ипадкова гра</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="52"/>
         <source>&amp;All available</source>
-        <translation>&amp;Todos disponíveis</translation>
+        <translation>&amp;Усі доступні</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="62"/>
         <source>All &amp;unsolved</source>
-        <translation>Todos &amp;Não resolvidos</translation>
+        <translation>Усі &amp;нерозв’язані</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="75"/>
         <source>&amp;Calendar challenge</source>
-        <translation>Desafio do &amp;calendário</translation>
+        <translation>Завдання &amp;календаря</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="99"/>
         <source>&amp;Help</source>
-        <translation>&amp;Ajuda</translation>
+        <translation>&amp;Довідка</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="106"/>
         <source>Setti&amp;ngs</source>
-        <translation>Configura&amp;ções</translation>
+        <translation>&amp;Налаштування</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="123"/>
         <source>Choose &amp;new game</source>
-        <translation>Escolher &amp;um novo jogo</translation>
+        <translation>Вибрати н&amp;ову гру</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="131"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Sair</translation>
+        <translation>Ви&amp;йти</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="139"/>
         <source>&amp;About</source>
-        <translation>&amp;Sobre</translation>
+        <translation>&amp;Про програму</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="147"/>
         <source>Zoom &amp;In</source>
-        <translation>Ampliar &amp;tamanho</translation>
+        <translation>З&amp;більшити</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="155"/>
         <source>Zoom &amp;Out</source>
-        <translation>Reduzir &amp;tamanho</translation>
+        <translation>Змен&amp;шити</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="166"/>
         <source>&amp;Restart game</source>
-        <translation>&amp;Reiniciar jogo</translation>
+        <translation>По&amp;чати спочатку</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="177"/>
         <source>&amp;Save game</source>
-        <translation>&amp;Salvar jogo</translation>
+        <translation>&amp;Зберегти гру</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="180"/>
         <location filename="../iqpuzzle.cpp" line="539"/>
         <source>Save game</source>
-        <translation>Salvar jogo</translation>
+        <translation>Зберегти гру</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="188"/>
         <source>&amp;Load game</source>
-        <translation>&amp;Carregar jogo</translation>
+        <translation>З&amp;авантажити гру</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="191"/>
         <location filename="../iqpuzzle.cpp" line="505"/>
         <source>Load game</source>
-        <translation>Carregar jogo</translation>
+        <translation>Завантажити гру</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="205"/>
         <source>Pa&amp;use</source>
-        <translation>Pa&amp;usa</translation>
+        <translation>Па&amp;уза</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="213"/>
         <source>&amp;Highscore</source>
-        <translation>&amp;Pontuação máxima</translation>
+        <translation>&amp;Рекорди</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="221"/>
         <source>&amp;Configure iQPuzzle...</source>
-        <translation>&amp;Configurar iQPuzzle...</translation>
+        <translation>На&amp;лаштувати iQPuzzle...</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="290"/>
         <source>Report &amp;bug</source>
-        <translation>Reportar &amp;bug</translation>
+        <translation>Report &amp;bug</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="293"/>
         <source>Report bug</source>
-        <translation>Reportar bug</translation>
+        <translation>Report bug</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="226"/>
         <location filename="../iqpuzzle.ui" line="251"/>
         <source>&amp;Easy</source>
-        <translation>&amp;Fácil</translation>
+        <translation>Пр&amp;ості</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="231"/>
         <location filename="../iqpuzzle.ui" line="256"/>
         <source>&amp;Medium</source>
-        <translation>&amp;Médio</translation>
+        <translation>Се&amp;редні</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="236"/>
         <location filename="../iqpuzzle.ui" line="261"/>
         <source>&amp;Hard</source>
-        <translation>&amp;Difícil</translation>
+        <translation>&amp;Складні</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="241"/>
         <location filename="../iqpuzzle.ui" line="246"/>
         <source>&amp;All</source>
-        <translation>&amp;Todos</translation>
+        <translation>&amp;Усі</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="269"/>
         <source>Sta&amp;tistics</source>
-        <translation>Esta&amp;tísticas</translation>
+        <translation>С&amp;татистика</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="274"/>
         <source>&amp;Day</source>
-        <translation>&amp;Dia</translation>
+        <translation>&amp;День</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="279"/>
         <source>&amp;Month and Day</source>
-        <translation>&amp;Mês e dia</translation>
+        <translation>&amp;Місяць і день</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.ui" line="282"/>
         <source>Month and Day</source>
-        <translation>Mês e dia</translation>
+        <translation>Місяць і день</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="94"/>
         <location filename="../iqpuzzle.cpp" line="617"/>
         <source>Game paused</source>
-        <translation>Jogo pausado</translation>
+        <translation>Гру призупинено</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="99"/>
@@ -413,7 +413,7 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../iqpuzzle.cpp" line="302"/>
         <location filename="../iqpuzzle.cpp" line="654"/>
         <source>Time</source>
-        <translation>Tempo</translation>
+        <translation>Час</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="103"/>
@@ -423,7 +423,7 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../iqpuzzle.cpp" line="620"/>
         <location filename="../iqpuzzle.cpp" line="653"/>
         <source>Moves</source>
-        <translation>Movimentos</translation>
+        <translation>Ходів</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="118"/>
@@ -431,7 +431,7 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../iqpuzzle.cpp" line="276"/>
         <location filename="../iqpuzzle.cpp" line="286"/>
         <source>File not found</source>
-        <translation>Arquivo não encontrado</translation>
+        <translation>Файл не знайдено</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="119"/>
@@ -439,99 +439,99 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../iqpuzzle.cpp" line="277"/>
         <location filename="../iqpuzzle.cpp" line="287"/>
         <source>The chosen file does not exist.</source>
-        <translation>O arquivo escolhido não existe.</translation>
+        <translation>Вибраний файл не існує.</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="146"/>
         <source>Games share path does not exist!</source>
-        <translation>O caminho de compartilhamento do jogo não existe!</translation>
+        <translation>Каталог з даними гри не існує!</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="319"/>
         <source>Unknown</source>
-        <translation>Desconhecido</translation>
+        <translation>Невідомо</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="323"/>
         <source>Solutions</source>
-        <translation>Soluções</translation>
+        <translation>Розв’язків</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="418"/>
         <source>No boards available!</source>
-        <translation>Sem tabuleiros disponíveis!</translation>
+        <translation>Немає доступних полів!</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="507"/>
         <location filename="../iqpuzzle.cpp" line="541"/>
         <source>Save games</source>
-        <translation>Salvar jogos</translation>
+        <translation>Файли збережених ігор</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="521"/>
         <source>Invalid saved puzzle.</source>
-        <translation>Puzzle salvo inválido.</translation>
+        <translation>Недійсний файл збереження.</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="653"/>
         <source>Puzzle solved!</source>
-        <translation>Puzzle solucionado!</translation>
+        <translation>Головоломку розв’язано!</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="752"/>
         <source>Statistics</source>
-        <translation>Estatísticas</translation>
+        <translation>Статистика</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="760"/>
         <location filename="../iqpuzzle.cpp" line="789"/>
         <source>Total</source>
-        <translation>Total</translation>
+        <translation>Разом</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="762"/>
         <source>Unsolved</source>
-        <translation>Não solucionado</translation>
+        <translation>Нерозв’язаних</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="765"/>
         <source>Easy</source>
-        <translation>Fácil</translation>
+        <translation>Простих</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="773"/>
         <source>Medium</source>
-        <translation>Médio</translation>
+        <translation>Середніх</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="781"/>
         <source>Hard</source>
-        <translation>Difícil</translation>
+        <translation>Складних</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="790"/>
         <source>including unknown difficulty</source>
-        <translation>incluindo dificuldade desconhecida</translation>
+        <translation>включно з невідомим рівнем складності</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="812"/>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>Про програму</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="826"/>
         <source>License</source>
-        <translation>Licença</translation>
+        <translation>Ліцензія</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="829"/>
         <source>This application uses &lt;a href=&quot;https://invent.kde.org/frameworks/breeze-icons&quot;&gt;Breeze icons from KDE&lt;/a&gt;.</source>
-        <translation>Essa aplicação usa &lt;a href=&quot;https://invent.kde.org/frameworks/breeze-icons&quot;&gt;Breeze ícones de KDE&lt;/a&gt;.</translation>
+        <translation>У програмі використано &lt;a href=&quot;https://invent.kde.org/frameworks/breeze-icons&quot;&gt;значки Breeze із KDE&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../iqpuzzle.cpp" line="832"/>
         <source>Translations</source>
-        <translation>Traduções</translation>
+        <translation>Переклад</translation>
     </message>
 </context>
 <context>
@@ -539,37 +539,37 @@ Grade reduzida para o tamanho padrão.</translation>
     <message>
         <location filename="../settingsdialog.ui" line="20"/>
         <source>Preferences</source>
-        <translation>Preferências</translation>
+        <translation>Налаштування</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="42"/>
         <source>Mouse controls</source>
-        <translation>Controle do mouse</translation>
+        <translation>Керування мишею</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="49"/>
         <source>Move block</source>
-        <translation>Mover bloco</translation>
+        <translation>Перемістити фігуру</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="59"/>
         <source>Rotate block</source>
-        <translation>Girar bloco</translation>
+        <translation>Повернути фігуру</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="69"/>
         <source>Flip block</source>
-        <translation>Virar bloco</translation>
+        <translation>Віддзеркалити фігуру</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="86"/>
         <source>GUI language</source>
-        <translation>Linguagem GUI</translation>
+        <translation>Мова</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="106"/>
         <source>Use system background color</source>
-        <translation>Usar a cor de fundo do sistema</translation>
+        <translation>Використовувати системний колір фону</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="20"/>
@@ -583,43 +583,43 @@ Grade reduzida para o tamanho padrão.</translation>
         <location filename="../settingsdialog.cpp" line="131"/>
         <location filename="../settingsdialog.cpp" line="132"/>
         <source>Left</source>
-        <translation>Esquerda</translation>
+        <translation>Ліва</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="20"/>
         <location filename="../settingsdialog.cpp" line="123"/>
         <source>Middle</source>
-        <translation>Meio</translation>
+        <translation>Середня</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="20"/>
         <location filename="../settingsdialog.cpp" line="123"/>
         <source>Right</source>
-        <translation>Direita</translation>
+        <translation>Права</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="23"/>
         <location filename="../settingsdialog.cpp" line="127"/>
         <source>First X</source>
-        <translation>Primeiro X</translation>
+        <translation>Перша X</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="23"/>
         <location filename="../settingsdialog.cpp" line="127"/>
         <source>Second X</source>
-        <translation>Segundo X</translation>
+        <translation>Друга X</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="23"/>
         <location filename="../settingsdialog.cpp" line="127"/>
         <source>Vertical wheel</source>
-        <translation>Roda vertical</translation>
+        <translation>Вертикальне коліщатко миші</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="24"/>
         <location filename="../settingsdialog.cpp" line="128"/>
         <source>Horizontal wheel</source>
-        <translation>Roda horizontal</translation>
+        <translation>Горизонтальне коліщатко миші</translation>
     </message>
     <message>
         <location filename="../settingsdialog.cpp" line="25"/>
@@ -648,7 +648,7 @@ Grade reduzida para o tamanho padrão.</translation>
     <message>
         <location filename="../settingsdialog.cpp" line="77"/>
         <source>Please change your settings. Same mouse button is used for several actions.</source>
-        <translation>Por favor, altere suas configurações. O mesmo botão do mouse é usado para várias ações.</translation>
+        <translation>Будь ласка, змініть налаштування. На одну клавішу миші призначено кілька дій.</translation>
     </message>
 </context>
 </TS>
